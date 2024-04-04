@@ -10,12 +10,14 @@ public class ToggleSwordFX : MonoBehaviour
     public ParticleSystem startParticle;
     public ParticleSystem extinguishParticle;
     public GameObject pointLight;
-
+    public Color bladeColor = Color.black;
+    Material mymat;
     bool isPlaying = true;
 
     private void Start()
     {
         //FX_Particle = GetComponent<ParticleSystem>();
+        mymat = GetComponent<Renderer>().material;
     }
 
     void Update()
@@ -26,6 +28,7 @@ public class ToggleSwordFX : MonoBehaviour
             {
                 FX_Particle.Stop();
                 pointLight.SetActive(false);
+                mymat.SetColor("_EmissionColor", Color.black);
                 if (extinguishParticle != null)
                     extinguishParticle.Play();
                 isPlaying = false;
@@ -33,7 +36,8 @@ public class ToggleSwordFX : MonoBehaviour
             else
             {
                 FX_Particle.Play();
-                pointLight.SetActive(true);
+                this.pointLight.SetActive(true);
+                mymat.SetColor("_EmissionColor", bladeColor);
                 if (startParticle != null)
                     startParticle.Play();
                 isPlaying = true;
